@@ -43,7 +43,6 @@
                  */
                 while ($tag = $lesInformations->fetch_assoc())
                 {
-                    echo "<pre>" . print_r($tag, 1) . "</pre>";
                     ?>
                     <article>
                         <h3>#<?php echo $tag['label']?></h3>
@@ -76,7 +75,6 @@
                  */
                 while ($tag = $lesInformations->fetch_assoc())
                 {
-                    echo "<pre>" . print_r($tag, 1) . "</pre>";
                     ?>
                     <article>
                         <h3><?php echo $tag['alias']?></h3>
