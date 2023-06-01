@@ -36,12 +36,15 @@
                 $lesInformations = $mysqli->query($laQuestionEnSql);
                 // Etape 4: à vous de jouer
                 //@todo: faire la boucle while de parcours des abonnés et mettre les bonnes valeurs ci dessous 
-                ?>
-                <article>
+                while ($users = $lesInformations->fetch_assoc())
+                {
+                    ?>                
+                    <article>
                     <img src="user.jpg" alt="blason"/>
-                    <h3>Béatrice</h3>
-                    <p>id:321</p>
+                    <h3><?php echo $users['alias'] ?></h3>
+                    <p><?php echo $users['id']?></p>                    
                 </article>
+                <?php } ?>
             </main>
         </div>
     </body>
