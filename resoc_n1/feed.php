@@ -35,6 +35,7 @@
                 $laQuestionEnSql = "SELECT * FROM `users` WHERE id= '$userId' ";
                 $lesInformations = $mysqli->query($laQuestionEnSql);
                 $user = $lesInformations->fetch_assoc();
+
                 //@todo: afficher le résultat de la ligne ci dessous, remplacer XXX par l'alias et effacer la ligne ci-dessous
                 ?>
                 <img src="user.jpg" alt="Portrait de l'utilisatrice"/>
@@ -55,6 +56,7 @@
                 $laQuestionEnSql = "
                     SELECT posts.content,
                     posts.created,
+                    users.id as author_id,
                     users.alias as author_name,  
                     count(likes.id) as like_number,  
                     GROUP_CONCAT(DISTINCT tags.label) AS taglist 
@@ -86,7 +88,9 @@
                     <h3>
                         <time datetime='2020-02-01 11:12:13' >31 février 2010 à 11h12</time>
                     </h3>
-                    <address>par <?php echo $posts['author_name'] ?></address>
+                    <address>par
+                        <a href="wall.php?user_id=<?php echo $posts['author_id'] ?>"><?php echo $posts['author_name'] ?></a>
+                    </address>
                     <div>
                         <p><?php echo $posts['content'] ?></p>
                     </div>                                            

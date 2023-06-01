@@ -50,6 +50,7 @@
                 $laQuestionEnSql = "
                     SELECT posts.content,
                     posts.created,
+                    users.id as id,
                     users.alias as author_name,  
                     count(likes.id) as like_number,  
                     GROUP_CONCAT(DISTINCT tags.label) AS taglist 
@@ -76,6 +77,7 @@
                 // NB: à chaque tour du while, la variable post ci dessous reçois les informations du post suivant.
                 while ($post = $lesInformations->fetch_assoc())
                 {
+                    $user = $lesInformations->fetch_assoc();
                     //la ligne ci-dessous doit etre supprimée mais regardez ce 
                     //qu'elle affiche avant pour comprendre comment sont organisées les information dans votre 
                     // echo "<pre>" . print_r($post, 1) . "</pre>";
@@ -90,7 +92,10 @@
                         <h3>
                             <time><?php echo $post['created'] ?></time>
                         </h3>
-                        <address>par <?php echo $post['author_name'] ?></address>
+                        <address>
+                            par
+                            <a href="wall.php?user_id=<?php echo $post['id'] ?>"><?php echo $post['author_name']?></a>
+                        </address>
                         <div>
                             <p><?php echo $post['content'] ?></p>
                         </div>
