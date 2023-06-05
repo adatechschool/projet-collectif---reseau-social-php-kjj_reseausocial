@@ -83,7 +83,7 @@
                     }
                     ?>                     
                     <form action="registration.php" method="post">
-                        <input type='hidden'name='id' value='8'>
+                        <input type='hidden'name='id' value=''>
                         <dl>
                             <dt><label for='pseudo'>Pseudo</label></dt>
                             <dd><input type='text'name='pseudo'></dd>
