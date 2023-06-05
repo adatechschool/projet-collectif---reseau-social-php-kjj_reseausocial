@@ -60,7 +60,8 @@ session_start();
                         {
                             echo "La connexion a échouée. ";
                             
-                        } else
+                        } else 
+
                         {
                             echo "Votre connexion est un succès : " ;
                             echo "<a href='wall.php?user_id=" . $alias . "'>" . $user['alias'] . "</a>";
