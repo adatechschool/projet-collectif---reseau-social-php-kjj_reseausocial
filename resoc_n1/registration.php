@@ -8,7 +8,7 @@
     </head>
     <body>
     <?php include("header.php");?>
-        <!--<title>ReSoC - Inscription</title> -->
+        <!--<title>ReSoC - Inscription</title> A rendre dynamique-->
         <div id="wrapper" >
 
             <aside>
