@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!doctype html>
 <html lang="fr">
 <head>
@@ -8,7 +12,16 @@
 </head>
 <body>
 <?php include("header.php"); ?>
-<div id="wrapper">
+
+<div id="wrapper">    <?php
+        if (isset($_SESSION['connected_id'])) {
+            $userId = intval($_GET['user_id']);
+                } else {
+                    echo 'Vous devez être connecté pour accéder à cette page.';
+                        exit;
+                        }
+    ?>
+
     <?php
     /**
      * Etape 1: Le mur concerne un utilisateur en particulier
@@ -47,6 +60,15 @@
         /**
          * Etape 3: récupérer le nom de l'utilisateur
          */
+        $laQuestionEnSql = "
+                    SELECT users.*
+                    FROM followers
+                    LEFT JOIN users ON users.id=followers.following_user_id
+                    WHERE followers.followed_user_id='$userId'
+                    GROUP BY users.id
+                    ";
+                $lesInformations = $mysqli->query($laQuestionEnSql);
+
         $laQuestionEnSql = "SELECT * FROM users WHERE id= '$userId' ";
         $lesInformations = $mysqli->query($laQuestionEnSql);
         $user = $lesInformations->fetch_assoc();
@@ -57,8 +79,17 @@
             <h3>Présentation</h3>
             <p>Sur cette page, vous trouverez tous les messages de l'utilisatrice : <?php echo $user['alias'] ?>
                 (n° <?php echo $userId ?>)
+                Coucou
             </p>
         </section>
+
+        <form method="POST" action="followers.php">
+        <label for="user_id" hidden >ID de l'utilisateur : <?php echo $followers['user_id'] ?></label>
+        <input type="text" hidden name="user_id" id="user_id" required>
+
+        <button type="submit">S'abonner</button>
+    </form>
+
     </aside>
     <main>
         <form class="form-wall" action="<?php echo $_SERVER['PHP_SELF'] . '?user_id=' . $userId; ?>" method="post">
