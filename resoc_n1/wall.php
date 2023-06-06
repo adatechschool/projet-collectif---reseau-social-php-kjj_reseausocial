@@ -61,19 +61,14 @@
         </section>
     </aside>
     <main>
-        <?php
-            $lien = "wall.php"; // Remplacez cette URL par l'URL dynamique souhaitée
-            echo "<a href='" . $lien . "'></a>";
-        ?>
-        <form class="form-wall" action="<?php $lien['user_id'] ?>" method="post">
+        <form class="form-wall" action="<?php echo $_SERVER['PHP_SELF'] . '?user_id=' . $userId; ?>" method="post">
             <input type='hidden' name='id' value=''>
             <dl>
-                <dt><label for=<?php $newPostSql ?>></label></dt>
+                <dt><label for="<?php echo $newPostSql; ?>"></label></dt>
                 <dd><textarea name='message'  placeholder="Votre message ..."></textarea></dd>
             </dl>
             <input type='submit'>
         </form>
-
         <?php
         /**
          * Etape 3: récupérer tous les messages de l'utilisatrice
