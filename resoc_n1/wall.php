@@ -13,9 +13,10 @@ session_start();
 <body>
 <?php include("header.php"); ?>
 
-<div id="wrapper">    <?php
+<div id="wrapper">    
+    <?php
         if (isset($_SESSION['connected_id'])) {
-            $userId = intval($_GET['user_id']);
+            $userId = intval($_SESSION['connected_id']);
                 } else {
                     echo 'Vous devez être connecté pour accéder à cette page.';
                         exit;
@@ -30,32 +31,18 @@ session_start();
      * Documentation : https://www.php.net/manual/fr/reserved.variables.get.php
      * ... mais en résumé, c'est une manière de passer des informations à la page en ajoutant des choses dans l'URL
      */
-    $userId = intval($_GET['user_id']);
+    // $userId = intval($_GET['user_id']);
     ?>
     <?php
     /**
      * Etape 2: se connecter à la base de donnée
      */
     $mysqli = new mysqli("localhost", "root", "root", "socialnetwork");
-
-    // Vérifier si le formulaire a été soumis
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $new_post = $_POST['message'];
-
-        $new_post = $mysqli->real_escape_string($new_post);
-        $newPostSql = "INSERT INTO posts (id, user_id, content, created) 
-                        VALUES (NULL, 
-                                $userId, 
-                                '$new_post', 
-                                NOW())";
-        $ok = $mysqli->query($newPostSql);
-        if (!$ok) {
-            echo "Erreur lors de l'ajout du message : " . $mysqli->error;
-        }
-    }
     ?>
 
+    
     <aside>
+
         <?php
         /**
          * Etape 3: récupérer le nom de l'utilisateur
@@ -77,20 +64,39 @@ session_start();
         <img src="user.jpg" alt="Portrait de l'utilisatrice"/>
         <section>
             <h3>Présentation</h3>
-            <p>Sur cette page, vous trouverez tous les messages de l'utilisatrice : <?php echo $user['alias'] ?>
+            <p>Sur cette page, vous trouverez tous les messages de l'utilisatrice : <?php echo $user['alias']; ?>
                 (n° <?php echo $userId ?>)
-                Coucou
             </p>
         </section>
 
         <form method="POST" action="followers.php">
-        <label for="user_id" hidden >ID de l'utilisateur : <?php echo $followers['user_id'] ?></label>
+        <label for="user_id" hidden >ID de l'utilisateur :<?php echo $followers['user_id']; ?></label>
         <input type="text" hidden name="user_id" id="user_id" required>
 
         <button type="submit">S'abonner</button>
     </form>
 
     </aside>
+
+    <?php
+
+    // Vérifier si le formulaire a été soumis
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $new_post = $_POST['message'];
+
+        $new_post = $mysqli->real_escape_string($new_post);
+        $newPostSql = "INSERT INTO posts (id, user_id, content, created) 
+                        VALUES (NULL, 
+                                $userId, 
+                                '$new_post', 
+                                NOW())";
+        $ok = $mysqli->query($newPostSql);
+        if (!$ok) {
+            echo "Erreur lors de l'ajout du message : " . $mysqli->error;
+        }
+    }
+    ?>
+
     <main>
         <form class="form-wall" action="<?php echo $_SERVER['PHP_SELF'] . '?user_id=' . $userId; ?>" method="post">
             <input type='hidden' name='id' value=''>

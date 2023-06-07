@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
             // Redirection vers le mur de l'utilisateur
             $userId = $user['id'];
-            header("Location: wall.php?user_id=$userId");
+            header("Location: wall.php");
             exit;
         }
     }
